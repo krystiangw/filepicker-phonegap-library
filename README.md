@@ -2,8 +2,6 @@
 
 ## Using
 
-Library return glogal filepicker object contains methods:
-
 ```
 	filepicker.pick(options, onSuccess, onError);
 	filepicker.pickAndStore(options, storeOptions, onSuccess, onError);
