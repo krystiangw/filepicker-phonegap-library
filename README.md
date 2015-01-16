@@ -2,12 +2,12 @@
 
 ## Requirements
 
-### Cordova inappbrowser plugin
+- Cordova inappbrowser plugin
 ```
 cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-inappbrowser.git
 ```
 
-### jQuery
+- jQuery
 
 ## Using
 
