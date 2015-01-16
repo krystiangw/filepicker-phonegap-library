@@ -72,8 +72,10 @@ var filepicker = (function(){
             "&iframe="+false+
             "&version=v1"+
             (options['services'] ? "&s="+options['services'].join(",") : "")+
-            (options['container'] !== undefined ? "&container="+ options['container'] : "modal") +
-            (multiple ? "&multi="+!!multiple : "")+
+            // Force window container
+            "&container=window"+
+            // Currently not supporting multiple uploadings
+            "&multi=false"+
             (options['mimetypes'] !== undefined ? "&m="+options['mimetypes'].join(",") : "")+
             (options['extensions'] !== undefined ? "&ext="+options['extensions'].join(",") : "")+
             (options['openTo'] !== undefined ? "&loc="+options['openTo'] : "")+
@@ -82,38 +84,36 @@ var filepicker = (function(){
             (options['maxFiles'] ? "&maxFiles="+options['maxFiles']: "")+
             (options['signature'] ? "&signature="+options['signature'] : "")+
             (options['policy'] ? "&policy="+options['policy'] : "")+
-            (options['mobile'] !== undefined ? "&mobile="+options['mobile'] : "")+
             (options['folders'] !== undefined ? "&folders="+options['folders'] : "")+
             (options['storeLocation'] ? "&storeLocation="+options['storeLocation'] : "")+
             (options['storePath'] ? "&storePath="+options['storePath'] : "")+
             (options['storeContainer'] ? "&storeContainer="+options['storeContainer'] : "")+
             (options['storeAccess'] ? "&storeAccess="+options['storeAccess'] : "")+
-            "&redirect_url=https://www.filepicker.io/dialog/phonegap_done/";
+            "&redirect_url=https://www.filepicker.io/dialog/phonegap_done/"+
+            // Force mobile view
+            "&mobile=true";
     };
 
     function openDialogWindow(url, callBackSuccess, callBackError) {
         var ref = window.open(encodeURI(url), "_blank", "location=no,fullscreen=no,toolbar=yes,titlebar=yes,scrollbars=yes,resizable=yes");
 
         var closeInAppBrowserAndGetFileInfo = function (event) {
-
             if (event.url.toString().indexOf('fpurl') > -1) {
-
                 var fileUrl = event.url.toString().split('fpurl=')[1];
+                
                 if (fileUrl.indexOf('&id=') > -1) {
                     fileUrl = fileUrl.split('&id=')[0];
                 }
+                var originalFileUrl = String(fileUrl);
                 fileUrl += '/metadata';
 
-
-                $.get(fileUrl, function (data) {
-                    data.url = url;
-                    ref.close();
+                jQuery.get(fileUrl, function (data) {
+                    data.url = originalFileUrl;
                     callBackSuccess(data);
-
-                }).error(function () {
-                    ref.close();
-                    callBackError();
+                }).error(function (error) {
+                    callBackError(error);
                 });
+                ref.close();
             };
         };
         if (ref) {

@@ -1,4 +1,13 @@
-## Filepicker.io library for Phonegap apps
+# Filepicker.io library for Phonegap apps
+
+## Requirements
+
+### Cordova inappbrowser plugin
+```
+cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-inappbrowser.git
+```
+
+### jQuery
 
 ## Using
 
@@ -7,7 +16,7 @@
 	filepicker.pickAndStore(options, storeOptions, onSuccess, onError);
 ```
 
-Example: 
+## Example: 
 ```
 <script type="text/javascript"
  src="filepicker_pg.min.js"></script>
@@ -31,4 +40,6 @@ Example:
 
 
 All options and examples (https://developers.filepicker.io/docs/web/javascript_api/)
+
+Currently library do not support multiple uploads.
 
